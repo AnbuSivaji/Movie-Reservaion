@@ -1,0 +1,145 @@
+/* src/pages/Profile.css */
+.profile-page {
+  padding: 2rem;
+  min-height: calc(100vh - 80px);
+  background-color: var(--bg);
+  color: var(--text);
+  transition: background 0.3s, color 0.3s;
+}
+
+.profile-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 80px);
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+.profile-header h1 {
+  font-size: 2rem;
+  color: var(--primary);
+  margin-bottom: 2rem;
+}
+
+.profile-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: var(--primary);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.details h2 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.5rem;
+}
+
+.email {
+  color: var(--text-secondary);
+  margin: 0 0 0.5rem 0;
+}
+
+.member-since {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.favorites-section h3 {
+  font-size: 1.3rem;
+  margin-bottom: 1.5rem;
+  color: var(--primary);
+}
+
+.favorites-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.favorite-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+  background-color: var(--card-bg);
+  border-radius: 4px;
+  transition: background 0.3s;
+}
+
+.favorite-item:hover {
+  background-color: var(--hover-bg);
+}
+
+.movie-title {
+  font-weight: 500;
+}
+
+.movie-year {
+  color: var(--text-secondary);
+}
+
+.no-favorites {
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+/* Theme Variables */
+body.light {
+  --bg: #f5f5f5;
+  --card-bg: #ffffff;
+  --text: #333333;
+  --text-secondary: #666666;
+  --primary: #3498db;
+  --border-color: #dddddd;
+  --hover-bg: #f0f0f0;
+}
+
+body.dark {
+  --bg: #121212;
+  --card-bg: #1e1e1e;
+  --text: #e0e0e0;
+  --text-secondary: #aaaaaa;
+  --primary: #4dabf7;
+  --border-color: #444444;
+  --hover-bg: #2d2d2d;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .user-info {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+
+  .avatar {
+    width: 60px;
+    height: 60px;
+    font-size: 1.5rem;
+  }
+
+  .profile-header h1 {
+    font-size: 1.5rem;
+  }
+}
