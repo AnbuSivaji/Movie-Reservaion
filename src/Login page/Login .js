@@ -4,7 +4,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { useTheme } from "../Context/ThemeContext";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import "./Auth.css";
-
+ 
 const Login = () => {
   const { theme } = useTheme();
   const [formData, setFormData] = useState({

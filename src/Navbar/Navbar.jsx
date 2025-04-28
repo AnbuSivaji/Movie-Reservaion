@@ -5,6 +5,7 @@ import { FaSignInAlt, FaUserEdit, FaBars, FaTimes } from "react-icons/fa";
 import Switch from "../Sunlight/Switch";
 import "./Navbar.css";
 
+
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);

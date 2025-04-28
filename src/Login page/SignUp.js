@@ -5,6 +5,7 @@ import { useTheme } from "../Context/ThemeContext";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import "./Auth.css";
 
+
 const SignUp = () => {
   const { theme } = useTheme();
   const [formData, setFormData] = useState({

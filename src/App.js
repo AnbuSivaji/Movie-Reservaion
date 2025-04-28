@@ -24,6 +24,7 @@ function App() {
     <ThemeProvider>
       <Router>
         <Navbar isAuthenticated={isAuthenticated} onLogout={handleLogout} />
+        
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login onLogin={handleLogin} />} />
