@@ -1,11 +1,10 @@
-// src/pages/Login.js
 import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useTheme } from "../Context/ThemeContext";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import "./Auth.css";
- 
-const Login = () => {
+
+const Login = ({ onLogin }) => {
   const { theme } = useTheme();
   const [formData, setFormData] = useState({
     email: "",
@@ -15,44 +14,34 @@ const Login = () => {
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-    if (errors[name]) setErrors((prev) => ({ ...prev, [name]: "" }));
-  };
+  const location = useLocation();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     setErrors({});
 
-    // Basic validation
-    if (!formData.email) {
-      setErrors({ email: "Email is required" });
-      setIsLoading(false);
-      return;
-    }
-    if (!formData.password) {
-      setErrors({ password: "Password is required" });
-      setIsLoading(false);
-      return;
-    }
-
     try {
-      // Simulate API call (replace with actual authentication)
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      // Check against stored users
+      const users = JSON.parse(localStorage.getItem("users")) || [];
+      const user = users.find(
+        (u) => u.email === formData.email && u.password === formData.password
+      );
 
-      // On successful login - IMMEDIATE REDIRECT
-      navigate("/");
-    } catch (err) {
-      setErrors({ general: err.message || "Login failed. Please try again." });
+      if (!user) {
+        setErrors({ general: "Invalid credentials. Please sign up first." });
+        return;
+      }
+
+      // On successful login
+      localStorage.setItem("currentUser", JSON.stringify(user));
+      onLogin();
+      navigate(location.state?.from || "/");
+    } catch (error) {
+      setErrors({ general: "Login failed. Please try again." });
+    } finally {
       setIsLoading(false);
     }
-  };
-
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
   };
 
   return (
@@ -61,66 +50,59 @@ const Login = () => {
         <h2>Login</h2>
 
         {errors.general && (
-          <div className="auth-message error">{errors.general}</div>
+          <div className="auth-message error">
+            {errors.general}
+            {errors.general.includes("sign up") && (
+              <a href="/signup" className="inline-link">
+                Sign up now
+              </a>
+            )}
+          </div>
         )}
 
         <form onSubmit={handleSubmit}>
           <div className="input-group">
-            <label htmlFor="email">Email</label>
+            <label>Email</label>
             <input
               type="email"
-              id="email"
-              name="email"
               value={formData.email}
-              onChange={handleChange}
+              onChange={(e) =>
+                setFormData({ ...formData, email: e.target.value })
+              }
               required
-              className={errors.email ? "error" : ""}
             />
-            {errors.email && (
-              <span className="input-error">{errors.email}</span>
-            )}
           </div>
 
           <div className="input-group">
-            <label htmlFor="password">Password</label>
+            <label>Password</label>
             <div className="password-input-container">
               <input
                 type={showPassword ? "text" : "password"}
-                id="password"
-                name="password"
                 value={formData.password}
-                onChange={handleChange}
+                onChange={(e) =>
+                  setFormData({ ...formData, password: e.target.value })
+                }
                 required
-                className={errors.password ? "error" : ""}
               />
               <button
                 type="button"
                 className="password-toggle"
-                onClick={togglePasswordVisibility}
+                onClick={() => setShowPassword(!showPassword)}
                 aria-label={showPassword ? "Hide password" : "Show password"}
               >
                 {showPassword ? <FaEyeSlash /> : <FaEye />}
               </button>
             </div>
-            {errors.password && (
-              <span className="input-error">{errors.password}</span>
-            )}
-          </div>
-
-          <div className="auth-options">
-            <Link to="/forgot-password" className="forgot-password">
-              Forgot Password?
-            </Link>
           </div>
 
           <button type="submit" className="auth-btn" disabled={isLoading}>
             {isLoading ? "Logging in..." : "Login"}
           </button>
-
-          <div className="auth-footer">
-            Don't have an account? <Link to="/signup">Sign up</Link>
-          </div>
         </form>
+
+        <div className="auth-footer">
+          Don't have an account? <a href="/signup">Sign up</a>
+        </div>
       </div>
     </div>
   );

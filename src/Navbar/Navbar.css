@@ -1,7 +1,6 @@
-/* src/components/Navbar.css */
 .navbar {
-  background-color: var(--navbar-bg, #2c3e50);
-  color: var(--navbar-text, #ffffff);
+  background-color: var(--navbar-bg);
+  color: var(--navbar-text);
   padding: 1rem 2rem;
   position: sticky;
   top: 0;
@@ -20,15 +19,13 @@
   align-items: center;
   max-width: 1200px;
   margin: 0 auto;
-  position: relative;
 }
 
 .navbar__logo {
   font-size: 1.5rem;
   font-weight: bold;
-  color: var(--navbar-text, #ffffff);
+  color: var(--navbar-text);
   text-decoration: none;
-  z-index: 1001;
 }
 
 .navbar__links-container {
@@ -42,45 +39,27 @@
   list-style: none;
   margin: 0;
   padding: 0;
-}
-
-.navbar__link {
-  margin: 0 1rem;
+  gap: 1.5rem;
 }
 
 .navbar__link a {
-  color: var(--navbar-text, #ffffff);
+  color: var(--navbar-text);
   text-decoration: none;
-  transition: color 0.3s ease;
   font-weight: 500;
   padding: 0.5rem 0;
   position: relative;
+  transition: opacity 0.3s;
 }
 
 .navbar__link a:hover {
-  color: var(--navbar-hover, #3498db);
-}
-
-.navbar__link a::after {
-  content: '';
-  position: absolute;
-  width: 0;
-  height: 2px;
-  bottom: 0;
-  left: 0;
-  background-color: var(--navbar-hover, #3498db);
-  transition: width 0.3s ease;
-}
-
-.navbar__link a:hover::after {
-  width: 100%;
+  opacity: 0.8;
 }
 
 .navbar__right {
   display: flex;
   align-items: center;
   gap: 1.5rem;
-  margin-left: 1rem;
+  margin-left: 2rem;
 }
 
 .navbar__auth {
@@ -92,18 +71,31 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: var(--navbar-text, #ffffff);
+  color: var(--navbar-text);
   text-decoration: none;
-  transition: color 0.3s ease;
-  font-weight: 500;
+  padding: 0.5rem;
+  transition: color 0.3s;
 }
 
 .auth-link:hover {
-  color: var(--navbar-hover, #3498db);
+  color: var(--navbar-hover);
 }
 
-.auth-link span {
-  display: inline-block;
+.logout-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--navbar-text);
+  padding: 0.5rem;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+.logout-btn:hover {
+  color: var(--navbar-hover);
 }
 
 .navbar__toggle {
@@ -112,61 +104,26 @@
 }
 
 .mobile-menu-btn {
-  display: none;
   background: none;
   border: none;
-  color: var(--navbar-text, #ffffff);
+  color: var(--navbar-text);
   font-size: 1.5rem;
   cursor: pointer;
-  z-index: 1001;
-}
-
-/* Dark mode styles */
-body.dark {
-  --navbar-bg: #1a1a1a;
-  --navbar-text: #f0f0f0;
-  --navbar-hover: #4dabf7;
-}
-
-body.light {
-  --navbar-bg: #2c3e50;
-  --navbar-text: #ffffff;
-  --navbar-hover: #3498db;
-}
-
-/* Responsive styles */
-@media (max-width: 992px) {
-  .navbar__links {
-    gap: 0.5rem;
-  }
-  
-  .navbar__link {
-    margin: 0 0.5rem;
-  }
+  display: none;
 }
 
 @media (max-width: 768px) {
-  .navbar {
-    padding: 1rem;
-  }
-
-  .mobile-menu-btn {
-    display: block;
-  }
-
   .navbar__links-container {
     position: fixed;
     top: 0;
     left: -100%;
     width: 80%;
     height: 100vh;
-    background-color: var(--navbar-bg, #2c3e50);
+    background: var(--navbar-bg);
     flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    padding: 2rem;
-    transition: left 0.3s ease;
-    z-index: 1000;
+    justify-content: flex-start;
+    padding: 5rem 2rem 2rem;
+    transition: left 0.3s;
   }
 
   .navbar__links-container.active {
@@ -176,24 +133,13 @@ body.light {
   .navbar__links {
     flex-direction: column;
     width: 100%;
-    margin-bottom: 2rem;
-  }
-
-  .navbar__link {
-    margin: 0.5rem 0;
-    width: 100%;
-  }
-
-  .navbar__link a {
-    padding: 0.5rem 0;
-    display: block;
+    gap: 1rem;
   }
 
   .navbar__right {
     flex-direction: column;
-    align-items: flex-start;
-    margin-left: 0;
     width: 100%;
+    margin: 2rem 0 0;
     gap: 1rem;
   }
 
@@ -203,17 +149,20 @@ body.light {
     gap: 1rem;
   }
 
-  .auth-link {
-    padding: 0.5rem 0;
+  .mobile-menu-btn {
+    display: block;
+    z-index: 1001;
   }
 }
 
-@media (max-width: 480px) {
-  .navbar__logo {
-    font-size: 1.2rem;
-  }
+body.light {
+  --navbar-bg: #2c3e50;
+  --navbar-text: #ffffff;
+  --navbar-hover: #3498db;
+}
 
-  .navbar__links-container {
-    width: 100%;
-  }
+body.dark {
+  --navbar-bg: #1a1a1a;
+  --navbar-text: #f0f0f0;
+  --navbar-hover: #4dabf7;
 }

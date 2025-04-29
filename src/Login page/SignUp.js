@@ -1,10 +1,8 @@
-// src/pages/SignUp.js
 import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useTheme } from "../Context/ThemeContext";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import "./Auth.css";
-
 
 const SignUp = () => {
   const { theme } = useTheme();
@@ -18,23 +16,25 @@ const SignUp = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
   const navigate = useNavigate();
 
   const validatePassword = (password) => {
-    return (
-      password.length >= 8 &&
-      /[A-Z]/.test(password) &&
-      /[a-z]/.test(password) &&
-      /[0-9]/.test(password) &&
-      /[^A-Za-z0-9]/.test(password)
-    );
-  };
+    const requirements = [
+      { regex: /.{8,}/, message: "At least 8 characters" },
+      { regex: /[A-Z]/, message: "At least one uppercase letter" },
+      { regex: /[a-z]/, message: "At least one lowercase letter" },
+      { regex: /[0-9]/, message: "At least one number" },
+      { regex: /[^A-Za-z0-9]/, message: "At least one special character" },
+    ];
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-    if (errors[name]) setErrors((prev) => ({ ...prev, [name]: "" }));
+    const failedRequirements = requirements
+      .filter((req) => !req.regex.test(password))
+      .map((req) => req.message);
+
+    return {
+      isValid: failedRequirements.length === 0,
+      messages: failedRequirements,
+    };
   };
 
   const handleSubmit = async (e) => {
@@ -44,15 +44,30 @@ const SignUp = () => {
 
     // Validation
     const newErrors = {};
+
     if (!formData.name.trim()) newErrors.name = "Name is required";
-    if (!formData.email.trim()) newErrors.email = "Email is required";
-    if (!formData.password) newErrors.password = "Password is required";
-    else if (!validatePassword(formData.password)) {
-      newErrors.password = "Password doesn't meet requirements";
+
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = "Invalid email format";
     }
+
+    const passwordValidation = validatePassword(formData.password);
+    if (!formData.password) {
+      newErrors.password = "Password is required";
+    } else if (!passwordValidation.isValid) {
+      newErrors.password = passwordValidation.messages.join(", ");
+    }
+
     if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = "Passwords don't match";
+      newErrors.confirmPassword = "Passwords do not match";
     }
+
+    // Check for existing user
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+    const emailExists = users.some((user) => user.email === formData.email);
+    if (emailExists) newErrors.email = "Email already registered";
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
@@ -62,36 +77,30 @@ const SignUp = () => {
 
     try {
       // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      // On success
-      setSuccess(true);
-      setTimeout(() => navigate("/login"), 1500);
-    } catch (err) {
-      setErrors({ general: err.message || "Signup failed" });
+      // Save user data
+      const newUser = {
+        id: Date.now(),
+        name: formData.name,
+        email: formData.email,
+        password: formData.password, // Note: In production, hash passwords
+        createdAt: new Date().toISOString(),
+      };
+
+      localStorage.setItem("users", JSON.stringify([...users, newUser]));
+      navigate("/login", { state: { fromSignUp: true } });
+    } catch (error) {
+      setErrors({ general: "Signup failed. Please try again." });
     } finally {
       setIsLoading(false);
     }
   };
 
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
-
-  const toggleConfirmPasswordVisibility = () => {
-    setShowConfirmPassword(!showConfirmPassword);
-  };
-
   return (
     <div className={`auth-container ${theme}`}>
       <div className="auth-form">
-        <h2>Create Your Account</h2>
-
-        {success && (
-          <div className="auth-message success">
-            Sign up successful! Redirecting to login...
-          </div>
-        )}
+        <h2>Create Account</h2>
 
         {errors.general && (
           <div className="auth-message error">{errors.general}</div>
@@ -99,29 +108,29 @@ const SignUp = () => {
 
         <form onSubmit={handleSubmit}>
           <div className="input-group">
-            <label htmlFor="name">Full Name</label>
+            <label>Full Name</label>
             <input
               type="text"
-              id="name"
-              name="name"
               value={formData.name}
-              onChange={handleChange}
-              required
+              onChange={(e) =>
+                setFormData({ ...formData, name: e.target.value })
+              }
               className={errors.name ? "error" : ""}
+              placeholder="Enter your name"
             />
             {errors.name && <span className="input-error">{errors.name}</span>}
           </div>
 
           <div className="input-group">
-            <label htmlFor="email">Email</label>
+            <label>Email</label>
             <input
               type="email"
-              id="email"
-              name="email"
               value={formData.email}
-              onChange={handleChange}
-              required
+              onChange={(e) =>
+                setFormData({ ...formData, email: e.target.value })
+              }
               className={errors.email ? "error" : ""}
+              placeholder="Enter your email"
             />
             {errors.email && (
               <span className="input-error">{errors.email}</span>
@@ -129,47 +138,52 @@ const SignUp = () => {
           </div>
 
           <div className="input-group">
-            <label htmlFor="password">Password</label>
+            <label>Password</label>
             <div className="password-input-container">
               <input
                 type={showPassword ? "text" : "password"}
-                id="password"
-                name="password"
                 value={formData.password}
-                onChange={handleChange}
-                required
+                onChange={(e) =>
+                  setFormData({ ...formData, password: e.target.value })
+                }
                 className={errors.password ? "error" : ""}
+                placeholder="Create password"
               />
               <button
                 type="button"
                 className="password-toggle"
-                onClick={togglePasswordVisibility}
+                onClick={() => setShowPassword(!showPassword)}
                 aria-label={showPassword ? "Hide password" : "Show password"}
               >
                 {showPassword ? <FaEyeSlash /> : <FaEye />}
               </button>
             </div>
-            {errors.password && (
+            {errors.password ? (
               <span className="input-error">{errors.password}</span>
+            ) : (
+              <div className="password-hints">
+                Password must contain: 8+ characters, uppercase, lowercase,
+                number, special character
+              </div>
             )}
           </div>
 
           <div className="input-group">
-            <label htmlFor="confirmPassword">Confirm Password</label>
+            <label>Confirm Password</label>
             <div className="password-input-container">
               <input
                 type={showConfirmPassword ? "text" : "password"}
-                id="confirmPassword"
-                name="confirmPassword"
                 value={formData.confirmPassword}
-                onChange={handleChange}
-                required
+                onChange={(e) =>
+                  setFormData({ ...formData, confirmPassword: e.target.value })
+                }
                 className={errors.confirmPassword ? "error" : ""}
+                placeholder="Confirm password"
               />
               <button
                 type="button"
                 className="password-toggle"
-                onClick={toggleConfirmPasswordVisibility}
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                 aria-label={
                   showConfirmPassword ? "Hide password" : "Show password"
                 }
@@ -185,11 +199,11 @@ const SignUp = () => {
           <button type="submit" className="auth-btn" disabled={isLoading}>
             {isLoading ? "Creating Account..." : "Sign Up"}
           </button>
-
-          <div className="auth-footer">
-            Already have an account? <Link to="/login">Log in</Link>
-          </div>
         </form>
+
+        <div className="auth-footer">
+          Already have an account? <a href="/login">Log in</a>
+        </div>
       </div>
     </div>
   );

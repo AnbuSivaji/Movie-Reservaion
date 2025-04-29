@@ -1,44 +1,83 @@
-// src/App.js
 import React, { useState } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import { ThemeProvider } from "./Context/ThemeContext";
 import Navbar from "./Navbar/Navbar";
 import Home from "./Home/Home";
 import Login from "./Login page/Login .js";
-import Signup from "./Login page/SignUp.js";
+import SignUp from "./Login page/SignUp.js";
 import Movies from "./Movies/Movies";
-import MovieBooking from "./Moviebooking/MovieBooking.js";
-
-
+import Profile from "./Profile/Profile";
 
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    localStorage.getItem("isAuthenticated") === "true"
+  );
 
   const handleLogin = () => {
     setIsAuthenticated(true);
+    localStorage.setItem("isAuthenticated", "true");
   };
 
   const handleLogout = () => {
     setIsAuthenticated(false);
+    localStorage.removeItem("isAuthenticated");
+        localStorage.removeItem("currentUser");
   };
 
   return (
     <ThemeProvider>
       <Router>
         <Navbar isAuthenticated={isAuthenticated} onLogout={handleLogout} />
-
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/movie/:id/book" element={<MovieBooking />} />
-          <Route path="/movies" element={<Movies />} />
-
-          <Route path="/login" element={<Login onLogin={handleLogin} />} />
-          <Route path="/signup" element={<Signup />} />
+          <Route
+            path="/login"
+            element={
+              isAuthenticated ? (
+                <Navigate to="/" />
+              ) : (
+                <Login onLogin={handleLogin} />
+              )
+            }
+          />
+          <Route
+            path="/signup"
+            element={isAuthenticated ? <Navigate to="/" /> : <SignUp />}
+          />
+          <Route
+            path="/movies"
+            element={
+              <ProtectedRoute isAuthenticated={isAuthenticated}>
+                <Movies />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute isAuthenticated={isAuthenticated}>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </Router>
     </ThemeProvider>
   );
 }
+
+// Add this component if missing
+const ProtectedRoute = ({ children, isAuthenticated }) => {
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
+  return children;
+};
 
 export default App;

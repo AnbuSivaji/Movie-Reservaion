@@ -1,15 +1,21 @@
-// src/components/Navbar.js
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { FaSignInAlt, FaUserEdit, FaBars, FaTimes } from "react-icons/fa";
+import { Link, useNavigate } from "react-router-dom";
+import {
+  FaSignInAlt,
+  FaUserEdit,
+  FaBars,
+  FaTimes,
+  FaSignOutAlt,
+  FaUser,
+} from "react-icons/fa";
 import Switch from "../Sunlight/Switch";
 import "./Navbar.css";
 
-
-const Navbar = () => {
+const Navbar = ({ isAuthenticated, onLogout }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileView, setIsMobileView] = useState(false);
+  const navigate = useNavigate();
 
   const navItems = [
     { label: "Home", href: "/" },
@@ -45,6 +51,12 @@ const Navbar = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
+  const handleLogout = () => {
+    onLogout();
+    if (isMobileView) setIsMobileMenuOpen(false);
+    navigate("/login");
+  };
+
   return (
     <nav className={`navbar ${isScrolled ? "scrolled" : ""}`}>
       <div className="navbar__container">
@@ -72,20 +84,40 @@ const Navbar = () => {
 
           <div className="navbar__right">
             <div className="navbar__auth">
-              <Link
-                to="/login"
-                className="auth-link"
-                onClick={() => isMobileView && setIsMobileMenuOpen(false)}
-              >
-                <FaSignInAlt /> <span>Login</span>
-              </Link>
-              <Link
-                to="/signup"
-                className="auth-link"
-                onClick={() => isMobileView && setIsMobileMenuOpen(false)}
-              >
-                <FaUserEdit /> <span>Sign Up</span>
-              </Link>
+              {isAuthenticated ? (
+                <>
+                  <Link
+                    to="/profile"
+                    className="auth-link"
+                    onClick={() => isMobileView && setIsMobileMenuOpen(false)}
+                  >
+                    <FaUser /> <span>Profile</span>
+                  </Link>
+                  <button
+                    className="auth-link logout-btn"
+                    onClick={handleLogout}
+                  >
+                    <FaSignOutAlt /> <span>Logout</span>
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link
+                    to="/login"
+                    className="auth-link"
+                    onClick={() => isMobileView && setIsMobileMenuOpen(false)}
+                  >
+                    <FaSignInAlt /> <span>Login</span>
+                  </Link>
+                  <Link
+                    to="/signup"
+                    className="auth-link"
+                    onClick={() => isMobileView && setIsMobileMenuOpen(false)}
+                  >
+                    <FaUserEdit /> <span>Sign Up</span>
+                  </Link>
+                </>
+              )}
             </div>
 
             <div className="navbar__toggle">

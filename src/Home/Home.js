@@ -61,7 +61,7 @@ const Home = () => {
       language: "Malayalam",
       rating: 8.9,
       image:
-        "https://m.media-amazon.com/images/M/MV5BN2FjNmFjZjktN2M3Mi00Y2QyLTk2MDktMjNmYzY2YzYxNjU0XkEyXkFqcGdeQXVyMTI1NDEyNTM5._V1_FMjpg_UX1000_.jpg",
+        "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQvsD1lnZFgCjU0ak33bw8kkkSrKCMSGM1B1LuiLcH_MIHkXKoH",
     },
     {
       id: 7,
@@ -69,7 +69,7 @@ const Home = () => {
       language: "Hindi",
       rating: 8.1,
       image:
-        "https://m.media-amazon.com/images/M/MV5BZTZhNmRhNmEtYjc0MC00OTQ5LTk0MzMtMGRlOWJlZTk4ODk1XkEyXkFqcGdeQXVyMTUzNTgzNzM0._V1_.jpg",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQA8fxJgOk6Q4UGjmsa1q3CQ1Q05Lt0Dn1leAl6_KexCEjqJAe6",
     },
     {
       id: 8,
@@ -77,7 +77,7 @@ const Home = () => {
       language: "Kannada",
       rating: 9.0,
       image:
-        "https://m.media-amazon.com/images/M/MV5BNjM2YWE4YzMtYjU0Yy00YjVjLThkYTgtYjM0NjJjODZjZWU5XkEyXkFqcGdeQXVyMTUzNTgzNzM0._V1_.jpg",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSr-WKnsOp7YBra7WsdhX8TyXV3Xdz2tTaMbCFzcTx_0C82U4go",
     },
     {
       id: 9,
@@ -85,7 +85,7 @@ const Home = () => {
       language: "Tamil",
       rating: 8.3,
       image:
-        "https://m.media-amazon.com/images/M/MV5BYjExYTcwYTgtZDBiYi00YjM0LWIxOGYtYzVlYTBlMGU4YzFmXkEyXkFqcGdeQXVyMTUzNTgzNzM0._V1_.jpg",
+        "https://en.wikipedia.org/wiki/Ponniyin_Selvan:_I#/media/File:Ponniyin_Selvan_I.jpg",
     },
   ];
 
