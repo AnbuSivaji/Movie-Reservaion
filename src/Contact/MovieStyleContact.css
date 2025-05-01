@@ -1,0 +1,216 @@
+.movie-contact {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  color: var(--text);
+}
+
+.movie-contact-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  position: relative;
+}
+
+.film-icon {
+  font-size: 3rem;
+  color: var(--primary);
+  margin-bottom: 1rem;
+}
+
+.movie-contact-header h1 {
+  font-size: 2.5rem;
+  margin: 0.5rem 0;
+  background: linear-gradient(to right, var(--primary), var(--accent));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.movie-contact-header p {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+}
+
+.movie-contact-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.contact-methods {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.method-card {
+  background: var(--card-bg);
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  transition: transform 0.3s ease;
+  border-left: 3px solid var(--primary);
+}
+
+.method-card:hover {
+  transform: translateY(-5px);
+}
+
+.icon-box {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+  color: white;
+  font-size: 1.2rem;
+}
+
+.icon-box.ticket { background: var(--ticket-color); }
+.icon-box.location { background: var(--location-color); }
+.icon-box.envelope { background: var(--envelope-color); }
+
+.method-card h3 {
+  margin-top: 0;
+  color: var(--primary);
+}
+
+.method-card p {
+  margin: 0.5rem 0;
+  line-height: 1.5;
+}
+
+.movie-contact-form {
+  background: var(--card-bg);
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+.movie-contact-form h2 {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background: var(--input-bg);
+  color: var(--text);
+  font-family: inherit;
+}
+
+.form-group textarea {
+  min-height: 150px;
+  resize: vertical;
+}
+
+.submit-btn {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.submit-btn:hover {
+  background: var(--primary-dark);
+  transform: translateX(5px);
+}
+
+.action-arrow {
+  transition: transform 0.3s ease;
+}
+
+.submit-btn:hover .action-arrow {
+  transform: translateX(3px);
+}
+
+.movie-quote {
+  text-align: center;
+  margin-top: 3rem;
+  padding: 1.5rem;
+  border-top: 1px dashed var(--border-color);
+  border-bottom: 1px dashed var(--border-color);
+}
+
+.movie-quote p {
+  font-style: italic;
+  font-size: 1.2rem;
+  margin: 0.5rem 0;
+}
+
+.quote-author {
+  color: var(--text-secondary);
+}
+
+/* Theme Variables */
+body.light {
+  --card-bg: #ffffff;
+  --text: #333333;
+  --text-secondary: #666666;
+  --primary: #e50914; /* Netflix red */
+  --primary-dark: #b2070f;
+  --accent: #221f1f;
+  --ticket-color: #f5c518; /* Cinema gold */
+  --location-color: #e50914;
+  --envelope-color: #221f1f;
+  --border-color: #dddddd;
+  --input-bg: #f9f9f9;
+  --shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+body.dark {
+  --card-bg: #1a1a1a;
+  --text: #f5f5f1;
+  --text-secondary: #b3b3b3;
+  --primary: #e50914;
+  --primary-dark: #b2070f;
+  --accent: #f5f5f1;
+  --ticket-color: #f5c518;
+  --location-color: #e50914;
+  --envelope-color: #f5f5f1;
+  --border-color: #444444;
+  --input-bg: #2d2d2d;
+  --shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .movie-contact-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .movie-contact-header h1 {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .movie-contact {
+    padding: 1rem;
+  }
+  
+  .movie-contact-header h1 {
+    font-size: 1.8rem;
+  }
+}
