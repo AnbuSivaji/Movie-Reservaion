@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useTheme } from "../Context/ThemeContext";
 import { FaPlay, FaStar, FaArrowRight, FaArrowLeft } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+
 import "./Home.css";
 
 const Home = () => {

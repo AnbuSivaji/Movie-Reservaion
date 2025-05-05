@@ -14,6 +14,8 @@ import Movies from "./Movies/Movies";
 import Profile from "./Profile/Profile";
 import ContactList from "./Contact/MovieStyleContact.jsx";
 import About from "./About/About";
+import TVShows from "./Tv Shows/TVShows";
+import TVShowList from "./Tv Shows/TVShowList";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(
@@ -82,6 +84,31 @@ function App() {
 						path='/about'
 						element={<About />}
 					/>
+					<Route
+						path='/tv-shows'
+						element={<TVShows />}
+					>
+						<Route
+							index
+							element={<TVShowList category='popular' />}
+						/>
+						<Route
+							path='popular'
+							element={<TVShowList category='popular' />}
+						/>
+						<Route
+							path='airing-today'
+							element={<TVShowList category='airing-today' />}
+						/>
+						<Route
+							path='on-tv'
+							element={<TVShowList category='on-tv' />}
+						/>
+						<Route
+							path='top-rated'
+							element={<TVShowList category='top-rated' />}
+						/>
+					</Route>
 				</Routes>
 			</Router>
 		</ThemeProvider>

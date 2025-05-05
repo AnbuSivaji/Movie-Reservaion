@@ -1,0 +1,24 @@
+.media-page {
+  padding: 2rem;
+  margin-top: 70px; /* To account for fixed navbar */
+}
+
+.media-page h1 {
+  text-transform: capitalize;
+  margin-bottom: 2rem;
+  color: var(--text-color);
+}
+
+.media-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 2rem;
+}
+
+/* Add responsive styles */
+@media (max-width: 768px) {
+  .media-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+  }
+}
