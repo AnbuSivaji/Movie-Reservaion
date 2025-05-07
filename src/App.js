@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
+	BrowserRouter as Router,
+	Routes,
+	Route,
+	Navigate,
 } from "react-router-dom";
 import { ThemeProvider } from "./Context/ThemeContext";
 import Navbar from "./Navbar/Navbar";
@@ -18,22 +18,22 @@ import TVShows from "./Tv Shows/TVShows";
 import TVShowList from "./Tv Shows/TVShowList";
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(
-    localStorage.getItem("isAuthenticated") === "true"
-  );
+	const [isAuthenticated, setIsAuthenticated] = useState(
+		localStorage.getItem("isAuthenticated") === "true"
+	);
 
-  const handleLogin = () => {
-    setIsAuthenticated(true);
-    localStorage.setItem("isAuthenticated", "true");
-  };
+	const handleLogin = () => {
+		setIsAuthenticated(true);
+		localStorage.setItem("isAuthenticated", "true");
+	};
 
-  const handleLogout = () => {
-    setIsAuthenticated(false);
-    localStorage.removeItem("isAuthenticated");
-    localStorage.removeItem("currentUser");
-  };
+	const handleLogout = () => {
+		setIsAuthenticated(false);
+		localStorage.removeItem("isAuthenticated");
+		localStorage.removeItem("currentUser");
+	};
 
-  return (
+	return (
 		<ThemeProvider>
 			<Router>
 				<Navbar
